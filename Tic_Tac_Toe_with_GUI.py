@@ -327,11 +327,18 @@ def isWinner(bo, le):
           or(bo[1] == le and bo[5] == le and bo[9] == le)
            or(bo[3] == le and bo[5] == le and bo[7] == le))
 
+
+alt=1 #alternate CPU and player first 
 #after the game ends, reset it 
 def reset_game(eventorigin):
-	global board
+	global board,  alt
+	alt+=1
 	board = [' ' for x in range(10)]
 	draw_canvas()
+	if alt%2==0:
+		move = compMove()
+		insertLetter('O',move)
+		draw_x_o(move,'o')
 
 #left click
 root.bind("<Button 1>",get_pos)
