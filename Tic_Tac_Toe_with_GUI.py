@@ -2,33 +2,51 @@
 """
 Created on Fri Nov  6 17:45:58 2020
 
-@author: radwa
+@author: radwane
 """
 
-red='#eb4b33'
-blue='#1d364c'
-yellow='#ecc307'
-white='#fefcfc'
+#importations
 from tkinter import *
 from tkinter.font import Font
 import time
 
+
+#Some hex colors
+red='#eb4b33'
+blue='#1d364c'
+yellow='#ecc307'
+white='#fefcfc'
+
+#initialization of the board and the scores 
 board = [' ' for x in range(10)]
 score_cpu=0
 score_player=0
+
+
+#initialization of the tkinter root with title, size and icon
+root=Tk()
+root.title('Tic Tac Toe')
+root.iconphoto(True, PhotoImage(file="tic-tac-toe.png"))
+root.geometry('600x500')
+
+
+#inserting X or O with its position into the board
 def insertLetter(letter, pos):
     board[pos] = letter
 
+#verifying if the space in the board is free
 def spaceIsFree(pos):
     return board[pos] == ' '
 
+
+#selecting randomly from the board (not all the time)
 def selectRandom(li):
     import random
     ln = len(li)
     r = random.randrange(0,ln)
     return li[r]
     
-
+#verifying if the board is full => tie game
 def isBoardFull(board):
     if board.count(' ') > 1:
         return False
@@ -36,10 +54,7 @@ def isBoardFull(board):
         return True
 
 
-root=Tk()
-root.title('Tic Tac Toe')
-root.iconphoto(True, PhotoImage(file="tic-tac-toe.png"))
-root.geometry('600x500')
+# to draw a canvas if the game ended 
 canvas = Canvas(root, width=600, height=500,bg='#eb4b33')
 def draw_canvas ():
 	
@@ -55,9 +70,10 @@ def draw_canvas ():
 	score_p=canvas.create_text(50,450,text=str(score_player),font=myFont, fill=yellow)
 	score_c=canvas.create_text(550,450,text=str(score_cpu),font=myFont, fill=white)
 
-
 draw_canvas ()
 
+#Getting the click position, converting it into positions in the board and drawing X and O accordingly. 
+# and verify if the game is won, call the computer move...
 def get_pos(eventorigin):
       global x,y
       x = eventorigin.x
@@ -84,20 +100,13 @@ def get_pos(eventorigin):
       elif 410<x and 340<y:
       	pos=9
       else:
-      	pos=0
-      
-      
-
-
-      
+      	pos=0     
       	      	  
 
-      if isWinner(board,'X'):
-      	        	  
+      if isWinner(board,'X'):      	        	  
       	  player_w=True      	  
       	  
-      elif isWinner(board,'O'):
-      	        	  
+      elif isWinner(board,'O'):      	        	  
       	  cpu_w=True
       	  
       if spaceIsFree(pos) and cpu_w==False and player_w==False :
@@ -105,43 +114,34 @@ def get_pos(eventorigin):
       	  draw_x_o(pos,'x')
       	  comp=True
 
-      if isWinner(board,'X'):
-      	       	  
+      if isWinner(board,'X'):      	       	  
       	  player_w=True      	  
       	  
-      elif isWinner(board,'O'):
-      	        	  
+      elif isWinner(board,'O'):      	        	  
       	  cpu_w=True
+      
       if comp and player_w == False and pos!=0:      	  	  
       	  move = compMove()
       	  insertLetter('O',move)
       	  draw_x_o(move,'o')      	  
       	  comp=False
       
-      if isBoardFull(board):
-      	  
+      if isBoardFull(board):      	  
       	  out=canvas.create_text(300,470,text="Tie game, right click to restart !",font=myFont1, fill=white)      	       	  
 
-      elif isWinner(board,'X'):
-      	  
+      elif isWinner(board,'X'):      	  
       	  draw_lines() 
       	  global score_player
       	  score_player+=1     	  
       	  player_w=True     	  
       	        	  
-      elif isWinner(board,'O'):
-      	   
+      elif isWinner(board,'O'):      	   
       	  draw_lines()
       	  global score_cpu
       	  score_cpu+=1     	  
       	  cpu_w=True
 
-      	  
-
-
-      
-      	  	
-      
+#IF the game is won, this will get the winning position of the three Xs or Os       
 def get_won_pos(bo, le):
 	if (bo[7] == le and bo[8] == le and bo[9] == le):
 		return 3
@@ -160,6 +160,7 @@ def get_won_pos(bo, le):
 	elif (bo[3] == le and bo[5] == le and bo[7] == le):
 		return 8
 
+#IF the game is won,this will draw a line over the three Xs or Os
 myFont1 = Font(family="Verdana", weight = 'bold', size=15)			
 def draw_lines():
 	for let in ['X','O']:
@@ -189,11 +190,7 @@ def draw_lines():
 			l=canvas.create_polygon(545,20,550,20,55,480,50,480, fill='black')
 			out=canvas.create_text(300,470,text="Right click to restart !",font=myFont1, fill=white)
 
-
-
-
-
-
+#this is to draw X or O in a given position
 def draw_x_o (pos,letter):	
 	if pos==0 :
 		pass
@@ -283,7 +280,7 @@ def draw_x_o (pos,letter):
 		o_out=canvas.create_oval(center_o[0]-40,center_o[1]-40,center_o[0]+40,center_o[1]+40,fill=white )
 		o_in=canvas.create_oval(center_o[0]-25,center_o[1]-25,center_o[0]+25,center_o[1]+25,fill=red )
 
-
+# this is to decide the computer move 
 def compMove():
     possibleMoves = [x for x, letter in enumerate(board) if letter == ' ' and x != 0]
     move = 0
@@ -319,7 +316,7 @@ def compMove():
         
     return move
 
-
+#To verify if the game is won
 def isWinner(bo, le):
     return ((bo[7] == le and bo[8] == le and bo[9] == le)
      or (bo[4] == le and bo[5] == le and bo[6] == le)
@@ -330,23 +327,17 @@ def isWinner(bo, le):
           or(bo[1] == le and bo[5] == le and bo[9] == le)
            or(bo[3] == le and bo[5] == le and bo[7] == le))
 
-def isBoardFull(board):
-    if board.count(' ') > 1:
-        return False
-    else:
-        return True
-
-
+#after the game ends, reset it 
 def reset_game(eventorigin):
 	global board
 	board = [' ' for x in range(10)]
 	draw_canvas()
 
-
+#left click
 root.bind("<Button 1>",get_pos)
-
+#right click
 root.bind("<Button 3>",reset_game)
-
+#main loop
 root.mainloop()
 
 
