@@ -4,7 +4,7 @@ Dev. by : Rad-Wane
 
 
 ## Game play:
-Simple Tic tac toe game where Xs and Os are drawn in the window, if three are aligned, there's a winner. The game is against the CPU the follows a basic algorithm. 
+Simple Tic tac toe game where Xs and Os are drawn in the window, if three are aligned, there's a winner. The game is against the CPU the follows a basic algorithm. First play is shared between CPU and player.
 
 ## Screen shot:
 ![](Capture.PNG)
