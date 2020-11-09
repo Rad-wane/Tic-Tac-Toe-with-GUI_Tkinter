@@ -1,6 +1,6 @@
 # Tic Tac Toe against CPU with GUI (Tkinter)
 
-Dev. by : Radwane Ait Ouhani 
+Dev. by : Rad-Wane 
 
 
 ## Game play:
